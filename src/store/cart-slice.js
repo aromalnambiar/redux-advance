@@ -5,26 +5,42 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState: {
         item: [],
-        totaaAmount: 0
+        totalAmount: 0
     },
     reducers: {
-        addToCart(state) {
-            const NewItems = state.item
-            const isItemExisted = action.item.find(item => item.id === NewItems.id)
+        addToCart(state, action) {
+            const NewItems = action.payload
+            const isItemExisted = state.item.find(item => item.id === NewItems.id)
+            state.totalAmount++;
             if (!isItemExisted) {
                 state.item.push({
-                    id: isItemExisted.id,
-                    price: isItemExisted.price,
+                    id: NewItems.id,
+                    price: NewItems.price,
                     quantity: 1,
-                    name: isItemExisted.name,
-                    totalPrice: isItemExisted.totalPrice
+                    name: NewItems.title,
+                    totalPrice: NewItems.totalPrice
                 })
-            }
-
-            if (isItemExisted) {
+            }else{
                 isItemExisted.quantity++;
-                isItemExisted.totalPrice = isItemExisted.totalPrice + NewItems.price;
+                isItemExisted.totalPrice = isItemExisted.totalPrice + NewItems.price
             }
         },
+
+        removedFromCart(state, action) {
+            const id = action.payload
+            const isItemExisted = state.item.find(item => item.id === id)
+            state.totalAmount--;
+            if (isItemExisted.quantity === 1) {
+                state.item = state.item.filter(item => item.id !== id)
+            }else{
+                isItemExisted.totalPrice--;
+                // isItemExisted.totalPrice = isItemExisted.totalPrice + isItemExisted.price;
+            }
+        }
     }
 })
+
+
+
+export const cartSliceActions = cartSlice.actions;
+export default cartSlice;
