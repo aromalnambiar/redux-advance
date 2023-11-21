@@ -26,7 +26,7 @@ function App() {
   return (
     <Layout>
       {showCart &&  <Cart />}
-      <Products />
+      <Products /> 
     </Layout>
   );
 }
