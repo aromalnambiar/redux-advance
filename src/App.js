@@ -26,9 +26,9 @@ function App() {
   return (
     <Layout>
       {showCart &&  <Cart />}
-      <Products /> 
+      <Products />  
     </Layout>
   );
-}
+}      
  
 export default App;
